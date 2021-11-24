@@ -1,4 +1,4 @@
-
+// 创建节点
 class CreateNode {
   constructor(element) {
     this.ele = element;
@@ -6,7 +6,7 @@ class CreateNode {
   }
 
 }
-
+// 链表
 class LinkedList {
   constructor(equalsFn = defaultEquals) {
     this.length = 0;
@@ -33,16 +33,57 @@ class LinkedList {
   }
 
   // 向链表特定位置插入一个特定元素
-  insert(element, position) { }
+  // 先连后断
+  insert(element, index) {
+    if (index >= 0 && index < this.length) {
+      let node = new CreateNode(element);
+      // 插在头部
+      if (index === 0) {
+        let current = this.head;
+        node.next = current.next;
+        this.head = node;
+      } else {
+        let previous = this.getElementAt(index - 1);
+        console.log(previous);
+        let current = previous.next;
+        node.next = current;
+        previous.next = node;
+      }
 
+      this.length++;
+      return true;
+    }
+    return false;
+  }
   // 返回特定位置的元素
-  getElementAt(index) { }
+  getElementAt(index) {
+    if (index >= 0 && index <= this.length) {
+      let node = this.head;
+      for (let i = 0; i < index && node !== null; i++) {
+        node = node.next;
+      }
+      return node;
+    }
+    return undefined;
+  }
 
   // 移除一个元素
-  remove(element) { }
+  remove(element) {
+    let index = this.indexOf(element);
+    return this.removeAt(index);
+  }
 
   // 返回元素的索引
-  indexOf(element) { }
+  indexOf(element) {
+    let current = this.head;
+    for (let i = 0; i < this.length; i++) {
+      if (this.equalsFn(element, current.ele)) {
+        return i;
+      }
+      current = current.next;
+    }
+    return -1;
+  }
 
   // 从特定位置移除一个元素
   removeAt(position) {
@@ -51,13 +92,9 @@ class LinkedList {
       if (position === 0) {
         this.head = current.next;
       } else {
-        let previous;
-        for (let i = 0; i < position; i++) {
-          previous = current;
-          current = current.next;
-        }
+        const previous = this.getElementAt(position - 1);
+        const current = previous.next;
         previous.next = current.next;
-
       }
 
       this.length--;
@@ -67,13 +104,28 @@ class LinkedList {
   }
 
   // 如果链表为空，返回 true
-  isEmpty() { }
+  isEmpty() {
+    return this.size() === 0;
+  }
 
-  //  返回链表中的元素
-  size() { }
+  //  返回链表的长度
+  size() {
+    return this.length;
+  }
 
   // 返回表示整个链表的字符串
-  toString() { }
+  toString() {
+    if (this.head === null) {
+      return '';
+    }
+    let objString = `${this.head.ele}`;
+    let current = this.head.next;
+    for (let i = 0; i < this.length && current !== null; i++) {
+      objString = `${objString}, ${current.ele}`;
+      current = current.next;
+    }
+    return objString;
+  }
 
 }
 
@@ -81,9 +133,5 @@ function defaultEquals(a, b) {
   return a === b;
 }
 
+// test
 const list = new LinkedList();
-list.push(15);
-list.push(10);
-list.push(13);
-let ans = list.removeAt(1);
-console.log(list, ans);
