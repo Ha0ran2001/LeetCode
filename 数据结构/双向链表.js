@@ -39,7 +39,7 @@ class DoubleLinkedList {
   addAt(index, item) {
     let current = this.head;
     let counter = 1;
-    let node = new Node(item);
+    const node = new Node(item);
 
     // 如果在头部插入
     if (index === 0) {
