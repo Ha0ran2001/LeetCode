@@ -19,6 +19,7 @@
  * @return {ListNode}
  */
 var getIntersectionNode = function (headA, headB) {
+	// 从你的全世界路过，只为寻觅你的芳踪 —— 鲁迅
 	if (headA === null || headB === null) {
 		return null
 	}
