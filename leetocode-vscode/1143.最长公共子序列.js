@@ -27,6 +27,26 @@ var longestCommonSubsequence = function (text1, text2) {
 			}
 		}
 	}
+	// 打印最长公共子序列
+	const s = []
+	let length = dp[m][n]
+	label: for (let i = m; i > 0; i--) {
+		for (let j = n; j > 0; j--) {
+			if (
+				dp[i][j] === length &&
+				dp[i][j] > dp[i][j - 1] &&
+				dp[i][j] > dp[i - 1][j]
+			) {
+				length--
+				s.unshift(text1[i - 1])
+				if (length === 0) {
+					break label
+				}
+				break
+			}
+		}
+	}
+	console.log(s.join(''))
 	return dp[m][n]
 }
 // @lc code=end
