@@ -16,43 +16,73 @@ var sortArray = function (nums) {
 	}
 	// randomQuickSort(nums, 0, nums.length - 1) // 随机快排
 	// 堆排序
-	let len = 0
-	const buildHeap = nums => {
-		len = nums.length
-		for (let i = len >> 1; i >= 0; i--) {
-			heapify(nums, i)
+	// let len = 0
+	// const buildHeap = nums => {
+	// 	len = nums.length
+	// 	for (let i = len >> 1; i >= 0; i--) {
+	// 		heapify(nums, i)
+	// 	}
+	// }
+
+	// const heapify = (arr, i) => {
+	// 	const left = 2 * i + 1 // 二叉树的左节点
+	// 	const right = 2 * i + 2 // 二叉树的右节点
+	// 	let largest = i
+
+	// 	if (left < len && arr[left] > arr[largest]) {
+	// 		largest = left
+	// 	}
+	// 	if (right < len && arr[right] > arr[largest]) {
+	// 		largest = right
+	// 	}
+	// 	if (largest !== i) {
+	// 		swap(arr, largest, i)
+	// 		heapify(arr, largest)
+	// 	}
+	// }
+
+	// const swap = (arr, i, j) => {
+	// 	var temp = arr[i]
+	// 	arr[i] = arr[j]
+	// 	arr[j] = temp
+	// }
+
+	// buildHeap(nums)
+	// for (let i = nums.length - 1; i > 0; i--) {
+	// 	swap(nums, 0, i)
+	// 	len--
+	// 	heapify(nums, 0)
+	// }
+	// return nums
+	const temp = []
+
+	const mergeSort = (nums, begin, end) => {
+		if (begin >= end || begin + 1 >= end) {
+			return
+		}
+
+		const mid = begin + ((end - begin) >> 1)
+
+		mergeSort(nums, begin, mid)
+		mergeSort(nums, mid, end)
+
+		let i = begin
+		let j = mid
+		let to = begin
+		// 将两个子数组进行合并, 注意下面是一个很重要的模板
+		while (i < mid || j < end) {
+			if (j >= end || (i < mid && nums[i] < nums[j])) {
+				temp[to++] = nums[i++]
+			} else {
+				temp[to++] = nums[j++]
+			}
+		}
+		// 把合并的结果拷回原来的数组a[]
+		for (let i = begin; i < end; i++) {
+			nums[i] = temp[i]
 		}
 	}
-
-	const heapify = (arr, i) => {
-		const left = 2 * i + 1 // 二叉树的左节点
-		const right = 2 * i + 2 // 二叉树的右节点
-		let largest = i
-
-		if (left < len && arr[left] > arr[largest]) {
-			largest = left
-		}
-		if (right < len && arr[right] > arr[largest]) {
-			largest = right
-		}
-		if (largest !== i) {
-			swap(arr, largest, i)
-			heapify(arr, largest)
-		}
-	}
-
-	const swap = (arr, i, j) => {
-		var temp = arr[i]
-		arr[i] = arr[j]
-		arr[j] = temp
-	}
-
-	buildHeap(nums)
-	for (let i = nums.length - 1; i > 0; i--) {
-		swap(nums, 0, i)
-		len--
-		heapify(nums, 0)
-	}
+	mergeSort(nums, 0, nums.length)
 	return nums
 }
 
