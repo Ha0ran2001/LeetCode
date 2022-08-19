@@ -29,9 +29,9 @@ var search = function (nums, target) {
 		if (nums[mid] === target) {
 			return mid
 		}
-		if (nums[0] <= nums[mid]) {
-			// [0, mid] 升序
-			if (target >= nums[0] && target < nums[mid]) {
+		if (nums[l] <= nums[mid]) {
+			// [l, mid] 升序
+			if (target >= nums[l] && target < nums[mid]) {
 				right = mid - 1
 			} else {
 				// 不在这个范围里
